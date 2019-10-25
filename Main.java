@@ -3,7 +3,7 @@ package TP3;
 import java.util.Scanner;
 
 public class Main {
-	
+	 
 	public static void main(String [] args){
 		
 		Scanner sc = new Scanner(System.in);
@@ -30,7 +30,7 @@ public class Main {
 			
 			System.out.println(t1);
 			
-			System.out.println("Saisir une valeur à saisir ");
+			System.out.println("Saisir une valeur Ã  saisir ");
 			valeurCle = sc.nextInt();
 			
 			try{
