@@ -10,5 +10,5 @@ public class LimiteTableauException extends Exception{
 	public LimiteTableauException(){
 		System.err.println("WARNING : Taille du tableau atteint !");
 	}
-	
+	 
 }
