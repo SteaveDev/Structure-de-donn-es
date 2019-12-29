@@ -3,7 +3,7 @@ package TP3;
 import java.util.Scanner;
 
 public class Main {
-	 
+	
 	public static void main(String [] args){
 		
 		Scanner sc = new Scanner(System.in);
@@ -13,11 +13,9 @@ public class Main {
 		System.out.println("Saisir une taille fixe pour le tableau : ");
 		
 		try {
-			//t1 = new TasBinaire(sc.nextInt());
-			t1 = new TasBinaire(-1);
+			t1 = new TasBinaire(sc.nextInt());
 		}
-		catch (NombreCleException e) {
-			
+		catch (NombreCleException e){
 		}
 		finally {
 			if(t1==null)
@@ -25,20 +23,20 @@ public class Main {
 		}
 		
 		while(true){
-			
-			System.out.println((int) (Math.log(10) / Math.log(2)));
-			
 			System.out.println(t1);
-			
-			System.out.println("Saisir une valeur à saisir ");
+			System.out.println("Saisir une valeur : ");
 			valeurCle = sc.nextInt();
-			
 			try{
-				t1.ajouterCle(valeurCle);
+				t1.inserer(valeurCle);
 			}
 			catch(LimiteTableauException e){}			
 		}
-		
 	}
-
 }
+
+
+
+
+
+
+
