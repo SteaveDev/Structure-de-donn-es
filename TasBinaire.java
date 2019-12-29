@@ -1,98 +1,109 @@
 package TP3;
 
 public class TasBinaire {
+	/*
+	 * TAS MIN
+	 * 
+	 * Pour TAS MAX -> il faut simplement changer le signe de
+	 * while(Tas[positionAcutelle] > Tas[parent(positionAcutelle)]) qui est dans fonction inserer
+	 * Integer.MAX_VALUE a la place de Integer.MIN_VALUE 
+	 * 
+	 */
 	
-	private int tailleFixe;
+	private int tailleMax;
 	private int nbCle;
-	private int[] tableau;
+	private int[] Tas;
 	
+	/*
+	 * Si l'utilisateur saisie la taille < 1
+	 * Alors on lui affectera un tas binaire de taille 20 par defaut
+	 */
 	public TasBinaire(){
-		this.tailleFixe=15;
+		this.tailleMax=20;
 		this.nbCle=0;
-		this.tableau = new int[this.tailleFixe];
-		
-		this.tableau[0]=53;
-		this.tableau[1]=41;
-		this.tableau[2]=30;
-		this.tableau[3]=36;
-		this.tableau[4]=28;
-		this.tableau[5]=21;
-		this.tableau[6]=6;
-		this.tableau[7]=31;
-		this.tableau[8]=16;
-		this.tableau[9]=20;
-		
-		this.nbCle=10;
-		//this.tableau[10]=53;	//ajouter par l'utilisateur
+		this.Tas = new int[this.tailleMax];
 	}
 	
-	public TasBinaire(int tailleFixe)
+	/*
+	 * 
+	 * Si la taille est <1 alors une exception est leve
+	 * Sinon on leve une exception
+	 * 
+	 * Tas a une taille de 'taille+1' pour contrer les nombres a virgules lors de la division pour retrouver le pere ou le fils
+	 */
+	public TasBinaire(int taille)
 		throws NombreCleException {
-			if(tailleFixe<1)
+			if(taille<1)
 				throw new NombreCleException();
 			else{
-				this.tailleFixe=tailleFixe;
+				this.tailleMax=taille;
 				this.nbCle=0;
-				this.tableau = new int[tailleFixe];
+				this.Tas = new int[taille+1];
+				this.Tas[0] = Integer.MIN_VALUE;	
 			}
 	}
 	
-	public void ajouterCle(int valeur) throws LimiteTableauException {
-		System.out.println("nbCle (avant): " + this.nbCle);
-		if(nbCle<tailleFixe){
-			this.tableau[nbCle]=valeur;
-			/*
-			int nbBoucle = (int) (Math.log(nbCle) / Math.log(2));
-			int pereCle = nbCle/2;
-			*/
-			System.out.println("---(this.nbCle/2)-1 : " + this.getNbCle()/2 );
-			int pereCle = (this.nbCle/2)-1;
-			System.out.println("pereCle 1 : " + pereCle);
+	private int parent(int pos){
+		return pos / 2;
+	}
+	
+	/*
+	 * On echange permute la valeur de deux cases du tableau 
+	 */
+	private void echange(int fpos, int spos) { 
+        int temp; 
+        temp = Tas[fpos]; 
+        Tas[fpos] = Tas[spos]; 
+        Tas[spos] = temp; 
+    }
+	
+	/*
+	 * verifie chaque relation entre pere et fils pour voir si les conditions sont bonnes pour echanger ou non
+	 * 
+	 */
+	public void inserer(int element) throws LimiteTableauException {
+		if(nbCle<=tailleMax){	
+			nbCle++;
+			Tas[nbCle]=element;
 			
-			
-			int nbBoucle = (int) (Math.log(this.nbCle) / Math.log(2));
-			
-			System.out.println("nbBoucle : " + nbBoucle);
-			
-			int i=0;
-			
-			while(nbBoucle>i){
-				System.out.println(this.tableau[pereCle]);
-				if( ((int)(pereCle/2)) > 0 ){
-					pereCle = (int)(pereCle/2) - 1;
-				}
-				else{
-					pereCle = 0;
-				}
-				nbBoucle--;
+			int positionAcutelle = nbCle;
+
+			while(getCleTas(positionAcutelle) > getCleTas(parent(positionAcutelle))){
+				echange(positionAcutelle, parent(positionAcutelle));
+				positionAcutelle = parent(positionAcutelle);				
 			}
-			
-			this.nbCle++;
-			System.out.println("nbCle (apres): " + this.nbCle);
 		}
 		else{
 			throw new LimiteTableauException();
 		}
 	}
 
-	public int getTailleFixe(){
-		return this.tailleFixe;
+	private int enfantGauche(int pos){
+		return (pos * 2);
+	}
+	
+	private int enfantDroite(int pos){
+		return (pos * 2) + 1;
+	}
+	
+	public int getTailleMax(){
+		return this.tailleMax;
 	}
 	
 	public int getNbCle(){
 		return this.nbCle;
 	}
 	
-	public int getCleTableau(int nEff){
+	public int getCleTas(int nEff){
 		if(nEff>=0 && nEff<nbCle)
-			return this.tableau[nEff];
+			return this.Tas[nEff];
 		return -1;
 	}
 	
 	public String toString(){
 		String s = new String("| ");
-		for(int i=0; i<tailleFixe; i++)
-			s = s + this.tableau[i] + " | ";
+		for(int i=1; i<=tailleMax; i++)
+			s = s + Tas[i] + " | ";
 		return s;
 	}
 	
